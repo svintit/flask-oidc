@@ -42,4 +42,6 @@ Extension list
    This adds the ability to add a ``Host: <issuer>`` header in
    environments where the issuer is no the same DNS as where the request
    is sent to. E.g ``localhost`` vs ``127.0.0.1``.
+- Token caching added: https://github.com/svintit/flask-oidc-ext/pull/9
+- Better error handling: https://github.com/svintit/flask-oidc-ext/pull/5
 
