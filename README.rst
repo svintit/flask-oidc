@@ -10,8 +10,8 @@ flask-oidc-ext
 
 .. |image| image:: https://img.shields.io/pypi/v/flask-oidc-ext.svg?style=flat
    :target: https://pypi.python.org/pypi/flask-oidc-ext
-.. |image1| image:: https://img.shields.io/pypi/dm/flask-oidc.svg?style=flat
-   :target: https://pypi.python.org/pypi/flask-oidc
+.. |image1| image:: https://img.shields.io/pypi/dm/flask-oidc-ext.svg?style=flat
+   :target: https://pypi.python.org/pypi/flask-oidc-ext
 .. |Documentation Status| image:: https://readthedocs.org/projects/flask-oidc/badge/?version=latest
    :target: http://flask-oidc.readthedocs.io/en/latest/?badge=latest
 .. |image2| image:: https://img.shields.io/travis/puiterwijk/flask-oidc.svg?style=flat
