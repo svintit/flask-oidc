@@ -454,6 +454,7 @@ class OpenIDConnect(object):
                 response.set_cookie(
                     current_app.config["OIDC_ID_TOKEN_COOKIE_NAME"],
                     signed_id_token,
+                    path=current_app.config["OIDC_ID_TOKEN_COOKIE_PATH"],
                     secure=cookie_secure,
                     httponly=True,
                     max_age=current_app.config["OIDC_ID_TOKEN_COOKIE_TTL"],
