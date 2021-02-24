@@ -155,7 +155,9 @@ class OpenIDConnect(object):
         )
 
         if http is not None:
-            warn("HTTP argument is deprecated and unused", DeprecationWarning)
+            self.http = http
+        else:
+            self.http = httplib2.Http()
         if time is not None:
             warn("time argument is deprecated and unused", DeprecationWarning)
         if urandom is not None:
@@ -360,7 +362,7 @@ class OpenIDConnect(object):
         if "_oidc_userinfo" in g:
             return g._oidc_userinfo
 
-        http = httplib2.Http()
+
         if access_token is None:
             try:
                 credentials = OAuth2Credentials.from_json(
@@ -369,13 +371,13 @@ class OpenIDConnect(object):
             except KeyError:
                 logger.debug("Expired ID token, credentials missing", exc_info=True)
                 return None
-            credentials.authorize(http)
-            resp, content = http.request(self.client_secrets["userinfo_uri"])
+            credentials.authorize(self.http)
+            resp, content = self.http.request(self.client_secrets["userinfo_uri"])
         else:
             # We have been manually overriden with an access token
             headers = current_app.config["OIDC_EXTRA_REQUEST_HEADERS"]
             headers["Content-type"] = "application/x-www-form-urlencoded"
-            resp, content = http.request(
+            resp, content = self.http.request(
                 self.client_secrets["userinfo_uri"],
                 "POST",
                 body=urlencode({"access_token": access_token}),
@@ -511,7 +513,7 @@ class OpenIDConnect(object):
 
             # refresh and store credentials
             try:
-                credentials.refresh(httplib2.Http())
+                credentials.refresh(self.http)
                 if credentials.id_token:
                     id_token = credentials.id_token
                 else:
@@ -1036,7 +1038,7 @@ class OpenIDConnect(object):
             or not self.tokens_store.get(token)
             or self.is_expired(token)
         ):
-            resp, content_string = httplib2.Http().request(
+            resp, content_string = self.http.request(
                 self.client_secrets["token_introspection_uri"],
                 "POST",
                 urlencode(request),
