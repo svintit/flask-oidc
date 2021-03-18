@@ -64,7 +64,7 @@ def check_redirect_uris(uris, client_type=None):
                 raise ValueError('http://localhost url with web client')
             client_type = 'native'
         else:
-            if (uri.startswith('http://') and 
+            if (uri.startswith('http://') and
                     not uri.startswith('http://localhost')):
                 raise ValueError('http:// url with non-localhost is illegal')
             else:
@@ -89,7 +89,7 @@ class RegistrationError(Exception):
 
 
 # OpenID Connect Dynamic Client Registration 1.0
-def register_client(provider_info, redirect_uris):
+def register_client(provider_info, redirect_uris, initial_access_token=None):
     """
     This function registers a new client with the specified OpenID Provider,
     and then returns the regitered client ID and other information.
@@ -116,6 +116,8 @@ def register_client(provider_info, redirect_uris):
                    'token_endpoint_auth_method': 'client_secret_post'}
 
     headers = {'Content-type': 'application/json'}
+    if initial_access_token is not None:
+        headers["Authorization"] = f"Bearer {initial_access_token}"
 
     resp, content = httplib2.Http().request(
         provider_info['registration_endpoint'], 'POST',
