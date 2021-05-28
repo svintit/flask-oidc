@@ -45,6 +45,8 @@ def _parse_args():
         default="client_secrets.json",
         help="File to write client info to",
     )
+    parser.add_argument('--initial-access-token', default=None,
+                        help='Iniitial access token for self registration')
     parser.add_argument("--debug", action="store_true")
     return parser.parse_args()
 
@@ -71,7 +73,8 @@ def main():
     if args.debug:
         print("Provider info: %s" % OP)
     try:
-        reg_info = registration.register_client(OP, redirect_uris)
+        reg_info = registration.register_client(OP, redirect_uris,
+                                                initial_access_token=args.initial_access_token)
     except Exception as ex:
         print("Error registering client")
         if args.debug:
